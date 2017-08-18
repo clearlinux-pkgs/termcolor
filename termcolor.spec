@@ -4,25 +4,21 @@
 #
 Name     : termcolor
 Version  : 1.1.0
-Release  : 13
-URL      : https://pypi.python.org/packages/source/t/termcolor/termcolor-1.1.0.tar.gz
-Source0  : https://pypi.python.org/packages/source/t/termcolor/termcolor-1.1.0.tar.gz
+Release  : 14
+URL      : http://pypi.debian.net/termcolor/termcolor-1.1.0.tar.gz
+Source0  : http://pypi.debian.net/termcolor/termcolor-1.1.0.tar.gz
 Summary  : ANSII Color formatting for output in terminal.
 Group    : Development/Tools
 License  : MIT
 Requires: termcolor-python
+BuildRequires : pbr
+BuildRequires : pip
 BuildRequires : python-dev
+BuildRequires : python3-dev
 BuildRequires : setuptools
 
 %description
-Example
 =======
-::
-import sys
-from termcolor import colored, cprint
-text = colored('Hello, World!', 'red', attrs=['reverse', 'blink'])
-print(text)
-cprint('Hello, World!', 'green', 'on_red')
 
 %package python
 Summary: python components for the termcolor package.
@@ -36,15 +32,27 @@ python components for the termcolor package.
 %setup -q -n termcolor-1.1.0
 
 %build
-%{__python} setup.py build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
+export LANG=C
+export SOURCE_DATE_EPOCH=1503081632
+python2 setup.py build -b py2
+python3 setup.py build -b py3
 
 %install
+export SOURCE_DATE_EPOCH=1503081632
 rm -rf %{buildroot}
-%{__python} setup.py install --root=%{buildroot}
+python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
+python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
+echo ----[ mark ]----
+cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
+echo ----[ mark ]----
 
 %files
 %defattr(-,root,root,-)
 
 %files python
 %defattr(-,root,root,-)
-/usr/lib/python*/*
+/usr/lib/python2*/*
+/usr/lib/python3*/*
