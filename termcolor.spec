@@ -4,12 +4,13 @@
 #
 Name     : termcolor
 Version  : 1.1.0
-Release  : 14
+Release  : 15
 URL      : http://pypi.debian.net/termcolor/termcolor-1.1.0.tar.gz
 Source0  : http://pypi.debian.net/termcolor/termcolor-1.1.0.tar.gz
 Summary  : ANSII Color formatting for output in terminal.
 Group    : Development/Tools
 License  : MIT
+Requires: termcolor-legacypython
 Requires: termcolor-python
 BuildRequires : pbr
 BuildRequires : pip
@@ -20,9 +21,18 @@ BuildRequires : setuptools
 %description
 =======
 
+%package legacypython
+Summary: legacypython components for the termcolor package.
+Group: Default
+
+%description legacypython
+legacypython components for the termcolor package.
+
+
 %package python
 Summary: python components for the termcolor package.
 Group: Default
+Requires: termcolor-legacypython
 
 %description python
 python components for the termcolor package.
@@ -36,12 +46,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1503081632
+export SOURCE_DATE_EPOCH=1505072182
 python2 setup.py build -b py2
 python3 setup.py build -b py3
 
 %install
-export SOURCE_DATE_EPOCH=1503081632
+export SOURCE_DATE_EPOCH=1505072182
 rm -rf %{buildroot}
 python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
 python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
@@ -52,7 +62,10 @@ echo ----[ mark ]----
 %files
 %defattr(-,root,root,-)
 
-%files python
+%files legacypython
 %defattr(-,root,root,-)
 /usr/lib/python2*/*
+
+%files python
+%defattr(-,root,root,-)
 /usr/lib/python3*/*
