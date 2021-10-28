@@ -4,7 +4,7 @@
 #
 Name     : termcolor
 Version  : 1.1.0
-Release  : 46
+Release  : 47
 URL      : http://pypi.debian.net/termcolor/termcolor-1.1.0.tar.gz
 Source0  : http://pypi.debian.net/termcolor/termcolor-1.1.0.tar.gz
 Summary  : ANSII Color formatting for output in terminal.
